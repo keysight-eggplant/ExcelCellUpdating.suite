@@ -1,0 +1,4 @@
+Sub RecalculateCells()
+  ' This line triggers a full recalculation of all formulas
+  Application.Calculate
+End Sub

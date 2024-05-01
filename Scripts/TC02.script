@@ -1,0 +1,11 @@
+﻿Global excelFileName, excelSheetNumber, CellAColon
+Log "Executing TC02 Script."
+
+put Core.getClipboardValue() into AValue
+
+put "A:" into AKey
+
+ExcelUtilities.updateCellValue excelFileName, excelSheetNumber, AKey, AValue
+
+TypeText controlKey, "a"
+TypeText "(01)7(21)1(17)101(10)" & CellAColon 

@@ -1,0 +1,4 @@
+﻿Log "Setting up variables!!"
+set Global excelFileName to "SampleSheetExcelWrite.xlsm"
+set Global excelSheetNumber to 2
+put "Working"&random(100, 999) into Global CellAColon 

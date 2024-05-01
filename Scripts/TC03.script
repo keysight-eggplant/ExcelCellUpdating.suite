@@ -1,0 +1,12 @@
+﻿Global excelFileName, excelSheetNumber
+Log "Executing TC03 Script."
+
+
+put Core.getClipboardValue() into C1Value
+
+put "C1" into C1Key
+
+ExcelUtilities.recalculateExcelCellsByVBS
+ExcelUtilities.validateUpdatedKeyInExcel excelFileName, excelSheetNumber, C1Value
+ExcelUtilities.validateUpdatedValueInExcel excelFileName, excelSheetNumber, C1Key, C1Value
+

@@ -1,0 +1,79 @@
+﻿to getWorkbookDetails excelFile 
+	set myExcelFile to Workbook(ResourcePath(excelFile))
+	Log "The number of sheets present is: "&worksheetCount of myExcelFile
+	Log "The names of the sheets present are: "& worksheetNames of myExcelFile
+end getWorkbookDetails
+
+
+to updateCellValue excelFile, sheetName, cellKey, cellValue
+
+	set keyRow to "B"
+	set valueRow to "C"
+	
+	set myExcelFile to Workbook(ResourcePath(excelFile))
+	set mySheet to worksheet(myExcelFile, sheetName)
+	put mySheet.cellRange (keyRow) into keyRowData
+	
+	repeat with each item of keyRowData
+		if (item 1 of it is cellKey) then 
+			put cellValue into mySheet.cell(valueRow&repeatIndex())
+			Log "The value "&cellValue&" got updated for "&cellKey&" in sheet."
+			exit repeat
+		end if
+	end repeat
+	
+end updateCellValue
+
+
+to recalculateExcelCellsByVBS
+	shell "c:\windows\system32\cmd.exe", "/c "&quote&ResourcePath("RecalculateExcelCellsValues.vbs")&quote
+	wait 15
+	Log "Re-Calculating the cells is Done!"
+end recalculateExcelCellsByVBS
+
+
+to validateUpdatedValueInExcel excelFile, sheetName, cellKey, cellValue
+	set myExcelFile to Workbook(ResourcePath(excelFile))
+	set mySheet to worksheet(myExcelFile, sheetName)
+	put mySheet.cellRange() into WholeData
+	
+	repeat with each item of WholeData
+		put it into singleRow
+		put repeatIndex() into RowNumber
+		repeat with each item of singleRow
+			if (it is cellKey) then 
+				put repeatIndex() into ColumnNumber
+				put mySheet.cell(RowNumber, (ColumnNumber + 1)) into actualCellValue
+				Log "The value of "&cellKey&" is "&actualCellValue
+				exit repeat
+			end if
+		end repeat
+	end repeat
+	
+	if (actualCellValue is cellValue) then 
+		Log "The value of "&cellKey&" is "&actualCellValue&" and the excel file got the updated value."
+	else 
+		Log "The value of "&cellKey&" is not matched."
+	end if
+end validateUpdatedValueInExcel
+
+
+
+to validateUpdatedKeyInExcel excelFile, sheetName, cellValue
+	set myExcelFile to Workbook(ResourcePath(excelFile))
+	set mySheet to worksheet(myExcelFile, sheetName)
+	put mySheet.cellRange() into WholeData
+	
+	repeat with each item of WholeData
+		put it into singleRow
+		put repeatIndex() into RowNumber
+		repeat with each item of singleRow
+			if (it is cellValue) then 
+				put repeatIndex() into ColumnNumber
+				put mySheet.cell(RowNumber, (ColumnNumber - 1)) into cellKey
+				Log "The key "&cellKey&" is having value "&cellValue
+				exit repeat
+			end if
+		end repeat
+	end repeat
+end validateUpdatedKeyInExcel

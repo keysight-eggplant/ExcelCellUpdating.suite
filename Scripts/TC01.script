@@ -1,0 +1,8 @@
+﻿Global excelFileName, CellAColon
+Log "Executing TC01 Script."
+
+ExcelUtilities.getWorkbookDetails excelFileName
+
+Core.launchApplication "notepad"
+
+TypeText CellAColon 

@@ -1,0 +1,13 @@
+﻿
+to launchApplication app
+	TypeText windowsKey, "r"
+	wait 1
+	TypeText app, return
+	wait 1
+end launchApplication
+
+to getClipboardValue
+	TypeText controlKey, "a"
+	TypeText controlKey, "c"
+	return RemoteClipboard()
+end getClipboardValue
